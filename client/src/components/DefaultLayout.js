@@ -11,8 +11,7 @@ import { Divider } from "antd";
 
 function DefaultLayout(props) {
   const user = JSON.parse(localStorage.getItem("user"));
-  // const username = user?.name?.split(" ");
-  const username = "Noor ul Hassan";
+  const username = user?.name?.split(" ");
   return (
     <div>
       <div className="myNAV p-3 mb-3">
@@ -29,7 +28,10 @@ function DefaultLayout(props) {
             >
               <p>
                 Let's Ride,{" "}
-                {username[0]?.charAt(0)?.toUpperCase() + username[0]?.slice(1)}
+                {user
+                  ? username[0]?.charAt(0)?.toUpperCase() +
+                    username[0]?.slice(1)
+                  : null}
               </p>
             </a>
             <ul
