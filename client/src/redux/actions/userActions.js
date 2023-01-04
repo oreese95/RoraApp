@@ -1,8 +1,8 @@
 import axios from "axios";
 import { message } from "antd";
 
-let url = "http://localhost:4000";
-// let url = "http://44.202.32.86:4000";
+// let url = "http://localhost:4000";
+let url = "https://api.rora-atx.com";
 
 export const userLogin = (reqObj) => async (dispatch) => {
   dispatch({ type: "LOADING", payload: true });
