@@ -22,6 +22,7 @@
     "nodemailer-react": "^1.0.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
+    "react-collapsed": "^3.6.0",
     "react-dom": "^18.2.0",
     "react-password-checklist": "^1.4.3",
     "react-places-autocomplete": "^7.3.0",

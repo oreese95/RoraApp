@@ -62,11 +62,17 @@ p{
 .car{
   border-radius: 15px;
   margin-top: 75px;
-  height: 140px;
+  height: 230px;
   transition: 0.3s;
 }
 
-.car:hover{
+
+@media (hover : hover){
+
+  .car{
+    height: 140px;
+  }
+ .car:hover{
   height: 200px;
 }
 
@@ -74,12 +80,14 @@ p{
   opacity: 1;
   transform: translateY(-40px);
 }
-
 .car-content{
   transform: translateY(-200px);
   opacity: 0;
   transition: 0.3s;
+} 
 }
+
+
 
 .login{
   min-height: 100vh;
@@ -185,7 +193,7 @@ box-shadow:  8px 8px 16px #d9d9d9,
   }
   
 .navIMG{
-  width: 180px;
+  width: 150px;
 }
 
 .bxs{

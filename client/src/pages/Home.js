@@ -5,6 +5,7 @@ import { getAllCars } from "../redux/actions/carsActions";
 import { Col, Row, DatePicker } from "antd";
 import Spinner from "../components/Spinner";
 import { Link } from "react-router-dom";
+import useCollapse from 'react-collapsed';
 import moment from "moment";
 import isBetween from "moment";
 
@@ -14,6 +15,7 @@ function Home() {
   const { cars } = useSelector((state) => state.carsReducer);
   const { loading } = useSelector((state) => state.alertsReducer);
   const [totalCars, settotalCars] = useState([]);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllCars());
@@ -22,6 +24,10 @@ function Home() {
   useEffect(() => {
     settotalCars(cars);
   }, [cars]);
+
+  const handleClick = () =>{
+    setOpen(!open)
+  }
 
   function setFilter(values) {
     var selectedFrom = moment(values[0], "MM DD yyyy HH:mm");
@@ -53,13 +59,6 @@ function Home() {
 
   return (
     <DefaultLayout>
-      {/* <div className='container mt-4'>
-                <div className='row'>
-                    <div className='col-sm-8 d-flex justify-content-start'>
-                        <RangePicker allowClear onChange={setFilter} showTime={{format: "HH:mm"}} format="MM DD yyyy HH:mm"/>
-                    </div>
-                </div>
-            </div> */}
       <Row className="mt-3" justify="center">
         <Col lg={20} sm={24} className="d-flex justify-content-left">
           <RangePicker
@@ -95,6 +94,7 @@ function Home() {
                   </div>
                 </div>
               </div>
+              
             </Col>
           );
         })}

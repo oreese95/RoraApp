@@ -1,8 +1,8 @@
 import { message } from "antd";
 import axios from "axios";
 
-// let url = "http://localhost:4000";
-let url = "https://api.rora-atx.com";
+//let url = "http://localhost:4000";
+ let url = "https://api.rora-atx.com";
 
 export const getAllCars = () => async (dispatch) => {
   dispatch({ type: "LOADING", payload: true });

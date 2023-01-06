@@ -10,6 +10,7 @@ const bookingSchema = new mongoose.Schema({
             to : {type : String,},
         }, 
     totalDays : {type: Number},
+    mileage : {type: Number},
     subTotal : {type: Number},
     total : {type: Number},
     transactionID : {type: String},

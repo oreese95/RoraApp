@@ -116,7 +116,7 @@ function Admin() {
                                 <Row justify="center" gutter={16} >
                                     {totalCars.map((car) => {
                                         return <Col lg={5} sm={24} xs={24}>
-                                            <div className='car p-2 bxs'>
+                                            <div className='car p-2 bxs' tabIndex="0">
                                                 <img className='carimg img-fluid' src={car.image} />
                                                 <div className='car-content d-flex align-items-center justify-content-between'>
                                                     <div>
@@ -124,7 +124,7 @@ function Admin() {
                                                         <div><p>${car.rentPerHour} / Day</p></div>
                                                     </div>
                                                     <div className="me-4">
-                                                        <Link to={`/editcar/${car._id}`}><EditOutlined className='me-3' style={{ color: "black" }} /></Link>
+                                                        <Link to={`/editcar/${car._id}`}><EditOutlined className='me-3' style={{ color: "black" }}/></Link>
                                                         <Popconfirm
                                                             title="Are you sure to delete this car?"
                                                             onConfirm={() => {
@@ -132,7 +132,7 @@ function Admin() {
                                                             }}
                                                             okText="Yes"
                                                             cancelText="No" >
-                                                            <DeleteOutlined />
+                                                            <DeleteOutlined/>
                                                         </Popconfirm>
 
                                                     </div>
@@ -149,8 +149,9 @@ function Admin() {
                                         <Col lg={6} sm={24}>
                                             <p><b>{booking.car.name + ' - '}</b></p>
                                             <p>Total Days : <b>{booking.totalDays}</b></p>
-                                            <p>Rate : <b>{booking.car.rentPerHour}</b>/ Day</p>
-                                            <p>Total : <b>{(booking.total)}</b></p>
+                                            <p>Total Miles : <b>{booking.miles}</b></p>
+                                            <p>Rate : <b>${booking.car.rentPerHour}</b>/ Day</p>
+                                            <p>Total : <b>{Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(booking.total)}</b></p>
                                         </Col>
                                         <Col lg={12} sm={24}>
                                             <p>Transaction ID : <b>{booking.transactionID}</b></p>

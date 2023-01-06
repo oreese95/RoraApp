@@ -31,6 +31,7 @@ function Bookingcar({ match }) {
     const [delivery, setDelivery] = useState(false);
     const [subTotal, setsubTotal] = useState(0);
     const [total, setTotal] = useState(0);
+    const [mileage, setTotalMileage] = useState(0);
     const [address, setAddress] = useState("5000 North Mays Street, Round Rock, Texas, USA");
     const [preGas, setPregas] = useState(false);
     const [preElec, setPreElec] = useState(false);
@@ -60,6 +61,10 @@ function Bookingcar({ match }) {
     useEffect(()=>{
         setTax(salesTaxRate * subTotal);
     }, [taxes, subTotal])
+    
+    useEffect(()=>{
+        setTotalMileage(car.miles * totalDays);
+    }, [mileage, totalDays])
 
     const handleSelect = async(value) =>{
         if(delivery){
@@ -95,6 +100,7 @@ function Bookingcar({ match }) {
             totalDays,
             subTotal,
             total,
+            mileage,
             deliveryRequired : delivery,
             bookedTimeSlots : {
                 from,
@@ -115,12 +121,12 @@ function Bookingcar({ match }) {
             emailjs.send(globalVar.Gmail_SRV, globalVar.Booked_Trip, {
                 to_name: username[0].charAt(0).toUpperCase() + username[0].slice(1),
                 email: loggedIN.email,
-                message: `${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')}\n${reqobj.location}\n${dinero}`,
+                message: `${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')}\n${reqobj.location}\nTotal Miles - ${mileage}\n${dinero}`,
             }, globalVar.GMail_Key).then(function (res){
                 console.log("Email Sent " + res.status)
             })
             emailjs.send(globalVar.Gmail_SRV, globalVar.Booked_Trip_Admin, {
-                message: `${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')} - ${reqobj.totalDays}\n${reqobj.location}\nCharge - ${reqobj.extras.charge}\nFuel - ${reqobj.extras.fuel}\nToll - ${reqobj.extras.toll}\nClean - ${reqobj.extras.clean}\n${dinero}`,
+                message: `${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')} - ${reqobj.totalDays}\n${reqobj.location}\nCharge - ${reqobj.extras.charge}\nFuel - ${reqobj.extras.fuel}\nToll - ${reqobj.extras.toll}\nCleaning - ${reqobj.extras.clean}\n${dinero}`,
             }, globalVar.GMail_Key).then(function (res){
                 console.log("Email Sent " + res.status)
             })
@@ -264,7 +270,8 @@ function Bookingcar({ match }) {
                     <hr/>
                     {from && to && (<div>
                         <p className='text-end'><b>Pick Up Address:</b> {address}</p>
-                        <p className='text-end'><b>Daily</b> - $ {car.rentPerHour.toFixed(2)}</p>
+                        <p className='text-end'><b>Trip Mileage:</b> {mileage}</p>
+                        <p className='text-end'><b>Daily Rate</b> - $ {car.rentPerHour.toFixed(2)}</p>
                         {delivery ? <p className='text-end'><b>Delivery</b> - $ {'40.00'}</p> : ""}
                         {preGas ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'40.00'}</p> : ""}
                         {preElec ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'25.00'}</p> : ""}

@@ -8,12 +8,12 @@ function Verify() {
   const { userid } = useParams();
   const { users } = useSelector(state => state.usersReducer);
   const dispatch = useDispatch()
-  const user = JSON.parse(localStorage.getItem("user"));
+  //const user = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
     dispatch(getAllUsers())
   }, [])
   users.map((user) => {
-    if (user.code == userid) {
+    if (user.code === userid) {
       user.verified = true
       dispatch(verifyUser(user))
       console.log(user)

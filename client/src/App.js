@@ -104,9 +104,9 @@ function App() {
           <Route
             path="/reset/:userid"
             element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <PasswordReset />
-              </ProtectedRoute>
+              // </ProtectedRoute>
             }
           />
         </Routes>

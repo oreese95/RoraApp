@@ -37,6 +37,9 @@ function AddCar() {
                     <Form.Item name='rentPerHour' label="Daily Rate" rules={[{required : true}]}>
                         <Input/>
                     </Form.Item>
+                    <Form.Item name='miles' label="Daily Mileage" rules={[{required : true}]}>
+                        <Input/>
+                    </Form.Item>
                     <Form.Item name='capacity' label="Capacity" rules={[{required : true}]}>
                         <Input/>
                     </Form.Item>

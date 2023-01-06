@@ -7,7 +7,7 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(req.body);
   try {
-    const user = await User.findOne({ email, password });
+    const user = await User.findOne({ email : {'$regex' : email, '$options' : "i"}, password });
     console.log(user, "user");
     if (user) {
       res.send(user);
