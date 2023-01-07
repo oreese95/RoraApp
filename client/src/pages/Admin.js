@@ -150,7 +150,7 @@ function Admin() {
                                             <p><b>{booking.car.name + ' - '}</b></p>
                                             <p>Total Days : <b>{booking.totalDays}</b></p>
                                             <p>Total Miles : <b>{booking.miles}</b></p>
-                                            <p>Rate : <b>${booking.car.rentPerHour}</b>/ Day</p>
+                                            <p>Rate : <b>${Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(booking.car.rentPerHour)}</b>/ Day</p>
                                             <p>Total : <b>{Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(booking.total)}</b></p>
                                         </Col>
                                         <Col lg={12} sm={24}>
