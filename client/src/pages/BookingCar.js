@@ -277,8 +277,8 @@ function Bookingcar({ match }) {
                         {preElec ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'25.00'}</p> : ""}
                         {toll ? <p className='text-end'><b>Unlimited Toll Access</b> - $ {'20.00'}</p> : ""}
                         {clean ? <p className='text-end'><b>Post-Trip Cleaning</b> - $ {'20.00'}</p> : ""}
-                        <p className='text-end'><b>Taxes</b> - $ {(Math.round(taxes * 100) / 100).toFixed(2)}</p>
                         <p className='text-end'><b>Subtotal</b> - $ {subTotal.toFixed(2)}</p>
+                        <p className='text-end'><b>Taxes</b> - $ {(Math.round(taxes * 100) / 100).toFixed(2)}</p>
                         <Divider/>
                         <p className='text-end'><b>Total</b> - $ {total.toFixed(2)}</p>
                         <div className='d-flex justify-content-end'>
