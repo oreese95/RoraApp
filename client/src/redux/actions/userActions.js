@@ -36,9 +36,9 @@ export const userRegister = (reqObj) => async (dispatch) => {
     message.success(
       "Registration Successful" + " - " + "Verification Email Sent"
     );
-    /*         setTimeout(()=>{
+/*              setTimeout(()=>{
                     window.location.href='/login'
-                }, 500); */
+                }, 1500);  */
     dispatch({ type: "LOADING", payload: false });
   } catch (error) {
     console.log(error);

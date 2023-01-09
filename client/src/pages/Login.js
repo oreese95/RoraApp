@@ -42,7 +42,7 @@ function Login() {
   }
 
   function onFinish2(values) {
-    debugger;
+    //debugger;
     values.role = "user";
     values.verified = false;
     values.code = makeid(5);
@@ -63,7 +63,7 @@ function Login() {
       .then(function (res) {
         console.log("Email Sent " + res.status);
       });
-    window.location.href = `/verify/${values.code}`;
+    //window.location.href = `/verify/${values.code}`;
   }
 
   return (
