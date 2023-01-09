@@ -58,7 +58,7 @@ function UserBookings() {
                                         </Col>
                                         <Col lg={12} sm={24}>
                                             <p>Transaction ID : <b>{booking.transactionID}</b></p>
-                                            <p>From : <b>{moment(booking.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')}</b></p>
+                                            <p>From : <b>{moment(booking.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mmZ a')}</b></p>
                                             <p>To : <b>{moment(booking.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')}</b></p>
                                             <p>Trip Booking Date : <b>{moment(booking.createdAt).format('MMM Do yyyy')}</b></p>
                                         </Col>
