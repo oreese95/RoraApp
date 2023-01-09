@@ -47,6 +47,7 @@ function UserBookings() {
                             <div className='tab-pane fade show active' role="tabpanel"
                                 aria-labelledby="nav-bookings-tab" id='nav-bookings'>
                                 {bookings.filter(o => o.user === user._id).map((booking) => {
+                                    console.log(booking)
                                      return <Row className="bxs m-3 text-right flex align-items-center">
                                         <Col lg={6} sm={24}>
                                             <p><b>{booking.car.name}</b></p>
