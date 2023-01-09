@@ -15,7 +15,7 @@ function ForgotPassword() {
   function onFinish(values) {
     console.log(values);
     users.map((user) => {
-      if (user.email == values.email) {
+      if ((new RegExp(values.email, "i")).test(user.email)) {
         console.log(user);
         const username = user?.name?.split(" ");
         emailjs
@@ -33,7 +33,7 @@ function ForgotPassword() {
           .then(function (res) {
             console.log("Email Sent " + res.status);
           });
-        window.location.href = "/login";
+        //window.location.href = "/login";
       }
     });
   }
