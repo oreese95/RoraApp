@@ -143,7 +143,8 @@ function Login() {
                         content={content}
                         trigger="click"
                         onChange={(e) => setPassword(e.target.value)}
-                        style={{zIndex: "50"}}
+                        placement="bottomRight"
+                        id="popOver"
                       >
                         <Form.Item
                           className="logTextColor"
