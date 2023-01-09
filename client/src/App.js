@@ -28,9 +28,9 @@ function App() {
             exact
             path="/"
             element={
-              <ProtectedRoute>
+              //<ProtectedRoute>
                 <Home />
-              </ProtectedRoute>
+             //</ProtectedRoute>
             }
           />
           <Route
