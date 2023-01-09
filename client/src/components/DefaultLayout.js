@@ -27,11 +27,10 @@ function DefaultLayout(props) {
               aria-expanded="true"
             >
               <p>
-                Let's Ride,{" "}
                 {user
-                  ? username[0]?.charAt(0)?.toUpperCase() +
+                  ? "Let's Go, " + username[0]?.charAt(0)?.toUpperCase() +
                     username[0]?.slice(1)
-                  : null}
+                  : "Lets Go"}
               </p>
             </a>
             <ul
@@ -86,7 +85,17 @@ function DefaultLayout(props) {
                   </a>
                 </li>
               ) : (
-                ""
+                <li>
+                  <a
+                    className="dropdown-item"
+                    onClick={() => {
+                      localStorage.removeItem("user");
+                      window.location.href = "/login";
+                    }}
+                  >
+                    Login/Sign Up
+                  </a>
+                </li>
               )}
             </ul>
           </div>
