@@ -34,6 +34,9 @@ function ForgotPassword() {
             console.log("Email Sent " + res.status);
           });
         //window.location.href = "/login";
+        message.success(
+          "Password Reset Email Sent"
+        );
       }
     });
   }
