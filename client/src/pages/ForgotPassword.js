@@ -5,6 +5,7 @@ import { Form, Input, Divider } from "antd";
 import ML from "../assests/rora mini.png";
 import emailjs from "@emailjs/browser";
 import globalVar from "../globalVar";
+import { message } from "antd";
 
 function ForgotPassword() {
   const { users } = useSelector((state) => state.usersReducer);
