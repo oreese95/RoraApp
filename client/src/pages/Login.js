@@ -10,11 +10,16 @@ import emailjs from "@emailjs/browser";
 import "../login.css";
 import globalVar from "../globalVar";
 
+
 function Login() {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.usersReducer);
   const [password, setPassword] = useState("");
   const [valid, setValid] = useState(false);
+
+  useEffect(() => {
+    dispatch(getAllUsers())
+}, [])
 
   function makeid(length) {
     var result = "";
@@ -43,6 +48,7 @@ function Login() {
 
   function onFinish2(values) {
     //debugger;
+    
     if (users.find(o => o.email === values.email)) {
       message.error(
         "Email in Use"

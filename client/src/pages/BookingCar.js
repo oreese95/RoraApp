@@ -3,7 +3,7 @@ import DefaultLayout from '../components/DefaultLayout';
 import { useSelector , useDispatch } from 'react-redux';
 import { getAllCars } from '../redux/actions/carsActions';
 import {useParams} from 'react-router-dom';
-import { DatePicker, Checkbox, Divider } from 'antd';
+import { DatePicker, Checkbox, Divider, message } from 'antd';
 import Spinner from '../components/Spinner';
 import arrow from '../assests/left-arrow.png';
 import moment from 'moment';
@@ -35,6 +35,7 @@ function Bookingcar({ match }) {
     const [address, setAddress] = useState("5000 North Mays Street, Round Rock, Texas, USA");
     const [preGas, setPregas] = useState(false);
     const [preElec, setPreElec] = useState(false);
+    const [validDate, setvalidDate] = useState(false);
     const [toll, setToll] = useState(false);
     const [taxes, setTax] = useState(0);
     const [airport, setAirport] = useState(false);
@@ -88,6 +89,17 @@ function Bookingcar({ match }) {
         else{
             settotalDays(values[1].diff(values[0], 'days'))
         }
+
+        setvalidDate(true);
+    }
+
+    function validDates(values){
+        if(values == null){
+            document.getElementsByClassName("btm1").style.visibility = "hidden";
+            message.error(
+                "Please enter valid dates."
+            )
+        }
     }
 
     const loggedIN = JSON.parse(localStorage.getItem('user'));
@@ -114,6 +126,7 @@ function Bookingcar({ match }) {
                 clean : clean
             },
         }
+        console.log(reqobj)
         //dispatch(bookCar(reqobj))
         if(dispatch(bookCar(reqobj))){
             const username = loggedIN.name.split(" ")
@@ -126,7 +139,7 @@ function Bookingcar({ match }) {
                 console.log("Email Sent " + res.status)
             })
             emailjs.send(globalVar.Gmail_SRV, globalVar.Booked_Trip_Admin, {
-                message: `${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')} - ${reqobj.totalDays}\n${reqobj.location}\nCharge - ${reqobj.extras.charge}\nFuel - ${reqobj.extras.fuel}\nToll - ${reqobj.extras.toll}\nCleaning - ${reqobj.extras.clean}\n${dinero}`,
+                message: `${loggedIN.name}\n${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')} - ${reqobj.totalDays}\n${reqobj.location}\nCharge - ${reqobj.extras.charge}\nFuel - ${reqobj.extras.fuel}\nToll - ${reqobj.extras.toll}\nCleaning - ${reqobj.extras.clean}\n${dinero}`,
             }, globalVar.GMail_Key).then(function (res){
                 console.log("Email Sent " + res.status)
             })
@@ -173,8 +186,9 @@ function Bookingcar({ match }) {
                     <div>
                         <p>Trip Date</p>
                         <div className='featBorder'>
-                        <RangePicker allowClear showTime={{format: "HH:mm"}} format="MM DD yyyy HH:mm" onChange={selectTimeSlots}></RangePicker>
-                        
+                        <RangePicker popupStyle={{
+                            width: "100%"
+                        }} allowClear use12Hours showTime format="MM DD yyyy hh:mm" placement={'topLeft'} onChange={selectTimeSlots} onCalendarChange={validDates}></RangePicker>
                         </div>
                     </div>
                     <div>
