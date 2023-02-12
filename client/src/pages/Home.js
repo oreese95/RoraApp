@@ -84,7 +84,7 @@ function Home() {
                       <p>{car.name}</p>
                     </div>
                     <div>
-                      <p>${car.rentPerHour} / Day</p>
+                      <p>${car.rentPerDay} / Day</p>
                     </div>
                   </div>
                   <div>

@@ -121,7 +121,7 @@ function Admin() {
                                                 <div className='car-content d-flex align-items-center justify-content-between'>
                                                     <div>
                                                         <div><p>{car.name}</p></div>
-                                                        <div><p>${car.rentPerHour} / Day</p></div>
+                                                        <div><p>${car.rentPerDay} / Day</p></div>
                                                     </div>
                                                     <div className="me-4">
                                                         <Link to={`/editcar/${car._id}`}><EditOutlined className='me-3' style={{ color: "black" }}/></Link>

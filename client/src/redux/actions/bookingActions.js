@@ -1,8 +1,8 @@
 import axios from "axios";
 import { message } from "antd";
 
- //let url = "http://localhost:4000";
- let url = "https://api.rora-atx.com";
+ let url = "http://localhost:4000";
+ //let url = "https://api.rora-atx.com";
 export const bookCar = (reqobj) => async (dispatch) => {
   dispatch({ type: "LOADING", payload: true });
   console.log(reqobj);

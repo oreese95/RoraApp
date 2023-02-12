@@ -25,13 +25,14 @@ router.post("/addcar" , async(req,res) =>{
 
 router.post("/editcar" , async(req,res) =>{
     try {
+        
         const car = await Car.findOne({_id : req.body._id})
         car.name = req.body.name
-        car.image = req.body.image
+        car.images = [...req.body.images]
         car.miles = req.body.miles
         car.fuelType = req.body.fuelType
         car.capacity = req.body.capacity
-        car.rentPerHour = req.body.rentPerHour
+        car.rentPerDay = req.body.rentPerDay
         await car.save()
         res.send("Car details updated successfully")
     } catch (error) {

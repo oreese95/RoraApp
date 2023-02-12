@@ -53,7 +53,7 @@ function Bookingcar({ match }) {
     }, [cars])
 
     useEffect(() => {
-        setsubTotal((totalDays * car.rentPerHour));
+        setsubTotal((totalDays * car.rentPerDay));
         if(delivery){
             setsubTotal(subTotal + 40);
         }
@@ -285,7 +285,7 @@ function Bookingcar({ match }) {
                     {from && to && (<div>
                         <p className='text-end'><b>Pick Up Address:</b> {address}</p>
                         <p className='text-end'><b>Trip Mileage:</b> {mileage}</p>
-                        <p className='text-end'><b>Daily Rate</b> - $ {car.rentPerHour.toFixed(2)}</p>
+                        <p className='text-end'><b>Daily Rate</b> - $ {car.rentPerDay.toFixed(2)}</p>
                         {delivery ? <p className='text-end'><b>Delivery</b> - $ {'40.00'}</p> : ""}
                         {preGas ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'40.00'}</p> : ""}
                         {preElec ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'25.00'}</p> : ""}
