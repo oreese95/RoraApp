@@ -14,6 +14,7 @@ import About from "./pages/About";
 import Verify from "./pages/Verify";
 import ForgotPassword from "./pages/ForgotPassword";
 import PasswordReset from "./pages/PasswordReset";
+import SuccessBooking from "./pages/Success";
 import {
   ProtectedAuthRoute,
   ProtectedRoute,
@@ -98,6 +99,14 @@ function App() {
             element={
               // <ProtectedRoute>
               <Verify />
+              // </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/success/:sessionid"
+            element={
+              // <ProtectedRoute>
+              <SuccessBooking />
               // </ProtectedRoute>
             }
           />

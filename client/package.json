@@ -36,6 +36,7 @@
     "redux-thunk": "^2.4.2",
     "regex": "^0.1.1",
     "sass": "^1.56.2",
+    "stripe": "^11.10.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

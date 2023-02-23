@@ -43,6 +43,9 @@ function AddCar() {
                         <Form.Item name='capacity' label="Capacity" rules={[{ required: true }]}>
                             <Input />
                         </Form.Item>
+                        <Form.Item name='deposit' label="Car Deposit" rules={[{ required: true }]}>
+                            <Input />
+                        </Form.Item>
                         <Form.Item name='fuelType' label="Fuel Type" rules={[{ required: true }]}>
                             <Radio.Group id='radioButtons' onChange={onChange} value={radio}>
                                 <Space direction="vertical">

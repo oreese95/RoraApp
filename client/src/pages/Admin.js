@@ -81,13 +81,12 @@ function Admin() {
 
     return (
         <DefaultLayout>
-            <div className='container mt-4'>
+            <div className='container mt-3'>
                 <div className='row'>
                     <div className='col-sm-12 d-flex justify-content-start'>
                         <h3>Admin</h3>
                     </div>
                 </div>
-
 
                 {loading === true && (<Spinner />)}
 
@@ -117,7 +116,7 @@ function Admin() {
                                     {totalCars.map((car) => {
                                         return <Col lg={5} sm={24} xs={24}>
                                             <div className='car p-2 bxs' tabIndex="0">
-                                                <img className='carimg img-fluid' src={car.image} />
+                                                <img className='carimg img-fluid' src={car.images[0].url} />
                                                 <div className='car-content d-flex align-items-center justify-content-between'>
                                                     <div>
                                                         <div><p>{car.name}</p></div>
@@ -145,12 +144,12 @@ function Admin() {
                             <div className='tab-pane fade' role="tabpanel"
                                 aria-labelledby="nav-book-tab" id='nav-book'>
                                 {bookings.map((booking) => {
-                                    return <Row className="bxs m-3 text-right flex align-items-center">
+                                    return <Row className="bxs mt-3 me-3 p-3 text-right flex align-items-center">
                                         <Col lg={6} sm={24}>
-                                            <p><b>{booking.car.name + ' - '}</b></p>
+                                            <p><u><b>{booking.car.name}</b></u></p>
                                             <p>Total Days : <b>{booking.totalDays}</b></p>
                                             <p>Total Miles : <b>{booking.miles}</b></p>
-                                            <p>Rate : <b>{Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(booking.car.rentPerHour)}</b>/ Day</p>
+                                            <p>Rate : <b>{Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(booking.car.rentPerDay)}</b>/ Day</p>
                                             <p>Total : <b>{Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(booking.total)}</b></p>
                                         </Col>
                                         <Col lg={12} sm={24}>
@@ -160,7 +159,7 @@ function Admin() {
                                             <p>Trip Booking Date : <b>{moment(booking.createdAt).format('MMM Do yyyy')}</b></p>
                                         </Col>
                                         <Col lg={6} sm={24}>
-                                            <img src={booking.car.image} height='150' className='p-2' />
+                                            <img src={booking.car.images[0].url} height='150' className='p-2' />
                                         </Col>
                                     </Row>
                                 })}
@@ -170,7 +169,7 @@ function Admin() {
                                     <a onClick={showModal} className='logbutton'>Add New User</a>
                                 </div>
                                 {users.map((user) => {
-                                    return <div className="bxs m-3 p-1 flex justify-content-center">
+                                    return <div className="bxs mt-3 p-1 flex justify-content-center">
                                         <Form initialValues={user} layout='vertical' onFinish={onFinish} className="p-4">
                                             <Form.Item name='name' label="User Name" rules={[{ required: true }]}>
                                                 <Input />

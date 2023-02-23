@@ -91,7 +91,7 @@ return (
     <div className="row justify-content-center">
       <div className="col-12 text-center align-self-center py-4">
         <h6 className="mb-0 pb-2">
-          <span>Log In </span>
+          <span>Log In</span>
           <span>Register</span>
         </h6>
         <input

@@ -8,6 +8,10 @@ body {
   background-color: whitesmoke;
 }
 
+.aboutBOX{
+  margin: 2%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -47,7 +51,7 @@ p{
 
 .carimg{
   height: 150px;
-  width: auto;
+  width: 225px;
   border-radius: 5px;
   transform: translateY(-50px);
 }
@@ -101,9 +105,10 @@ box-shadow:  8px 8px 16px #d9d9d9,
 }
 
 .carimg2{
-  height: 400px;
+  height: auto;
   border-radius: 10px;
-  width: auto;
+  width: 100%;
+  position: relative;
 }
 
 .search{
@@ -188,8 +193,13 @@ box-shadow:  8px 8px 16px #d9d9d9,
 
 @media screen and (max-width:420px){
 
+  .aboutBOX{
+    margin: 0%;
+  }
+
   .carimg2{
     height: 250px;
+    top: -5%;
   }
 
   #urlIMAGE{

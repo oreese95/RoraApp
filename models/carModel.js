@@ -11,6 +11,7 @@ const carSchema = new mongoose.Schema({
     capacity : {type : Number, required : true},
     miles : {type : Number, required : true},
     fuelType : {type : String, required : true},
+    deposit : {type : Number, required : true},
     bookedTimeSlots : [
         {
             from : {type : String, required : true},

@@ -9,7 +9,7 @@ import { Divider } from 'antd';
 function About() {
   return (
     <DefaultLayout>
-        <div className='container bxs'>
+        <div className='aboutBOX bxs p-2'>
             <div className="row">
                 <div className='col-md-12'>
                     <img id="logimg" src={ML} width="225" />
@@ -17,7 +17,7 @@ function About() {
                     <Divider/>
                 </div>
             </div>
-            <div className="row p-3 pb-5 pt-3 m-2">
+            <div className="row p-3 pb-5 pt-3 mt-2">
                 <div className="col-md-4 mb-3">
                     <div className='abtIcon p-3'>
                         <img src={soap} width="100"/>

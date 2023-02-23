@@ -1,19 +1,18 @@
 import axios from "axios";
 import { message } from "antd";
+import moment from 'moment';
 
- let url = "http://localhost:4000";
- //let url = "https://api.rora-atx.com";
+let url = "http://localhost:4000";
+//let url = "https://api.rora-atx.com";
 export const bookCar = (reqobj) => async (dispatch) => {
   dispatch({ type: "LOADING", payload: true });
-  console.log(reqobj);
+  //console.log(reqobj);
 
   try {
     await axios.post(`${url}/api/bookings/bookcar`, reqobj);
     dispatch({ type: "LOADING", payload: false });
     message.success("Your car booked Successfully");
-    setTimeout(() => {
-      window.location.href = "/mystuff";
-    }, 500);
+
     return true;
   } catch (error) {
     console.log(error);

@@ -77,7 +77,7 @@ function Home() {
           return (
             <Col lg={5} sm={24} xs={24}>
               <div className="car p-2 bxs">
-                <img className="carimg" src={car.image} />
+                <img className="carimg" src={car.images[0].url} />
                 <div className="car-content d-flex align-items-center justify-content-between">
                   <div>
                     <div>

@@ -3,18 +3,19 @@ import DefaultLayout from '../components/DefaultLayout';
 import { useSelector , useDispatch } from 'react-redux';
 import { getAllCars } from '../redux/actions/carsActions';
 import {useParams} from 'react-router-dom';
-import { DatePicker, Checkbox, Divider, message } from 'antd';
+import { DatePicker, Checkbox, Divider, message, Carousel } from 'antd';
 import Spinner from '../components/Spinner';
 import arrow from '../assests/left-arrow.png';
 import moment from 'moment';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { bookCar } from '../redux/actions/bookingActions';
-import StripeCheckout from 'react-stripe-checkout';
 import gas from '../assests/gas-can.png';
 import seat from '../assests/car-seat.png';
 import elec from '../assests/car.png';
 import emailjs from '@emailjs/browser';
 import globalVar from '../globalVar';
+import { stripeCheckout } from '../redux/actions/stripeActions';
+
 
 const {RangePicker} = DatePicker
 
@@ -53,7 +54,7 @@ function Bookingcar({ match }) {
     }, [cars])
 
     useEffect(() => {
-        setsubTotal((totalDays * car.rentPerDay));
+        setsubTotal((totalDays * car.rentPerDay) + car.deposit);
         if(delivery){
             setsubTotal(subTotal + 40);
         }
@@ -101,17 +102,20 @@ function Bookingcar({ match }) {
             )
         }
     }
+    //console.log(JSON.parse(localStorage.getItem('user')));
 
-    const loggedIN = JSON.parse(localStorage.getItem('user'));
-
-    function onToken(token){
+    const pay = () => {
+        const loggedIN = JSON.parse(localStorage.getItem('user'));
         const reqobj = {
-            token,
             user : JSON.parse(localStorage.getItem('user'))._id,
+            user_name : JSON.parse(localStorage.getItem('user')).name,
+            email : loggedIN.email,
+            name: car.name,
             car : car._id,
             totalDays,
             subTotal,
-            total,
+            total: Math.ceil(total * 100) / 100,
+            unit_amount: total,
             mileage,
             deliveryRequired : delivery,
             bookedTimeSlots : {
@@ -125,27 +129,17 @@ function Bookingcar({ match }) {
                 toll : toll,
                 clean : clean
             },
+            images: car.images[0].url,
+            description: moment(from).format('dddd, MMM Do yyyy, h:mm a') + ' - ' + moment(to).format('dddd, MMM Do yyyy, h:mm a')
         }
-        console.log(reqobj)
-        //dispatch(bookCar(reqobj))
-        if(dispatch(bookCar(reqobj))){
-            const username = loggedIN.name.split(" ")
-            const dinero = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(reqobj.total)
-            emailjs.send(globalVar.Gmail_SRV, globalVar.Booked_Trip, {
-                to_name: username[0].charAt(0).toUpperCase() + username[0].slice(1),
-                email: loggedIN.email,
-                message: `${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')}\n${reqobj.location}\nTotal Miles - ${mileage}\n${dinero}`,
-            }, globalVar.GMail_Key).then(function (res){
-                console.log("Email Sent " + res.status)
-            })
-            emailjs.send(globalVar.Gmail_SRV, globalVar.Booked_Trip_Admin, {
-                message: `${loggedIN.name}\n${car.name}\n${moment(reqobj.bookedTimeSlots.from).format('dddd, MMM Do yyyy, h:mm a')} - ${moment(reqobj.bookedTimeSlots.to).format('dddd, MMM Do yyyy, h:mm a')} - ${reqobj.totalDays}\n${reqobj.location}\nCharge - ${reqobj.extras.charge}\nFuel - ${reqobj.extras.fuel}\nToll - ${reqobj.extras.toll}\nCleaning - ${reqobj.extras.clean}\n${dinero}`,
-            }, globalVar.GMail_Key).then(function (res){
-                console.log("Email Sent " + res.status)
-            })
-        }
-
-    }
+        dispatch(stripeCheckout(reqobj));    
+           
+          //console.log(reqobj)
+          /* if(dispatch(bookCar(reqobj))){
+            
+            }) 
+        }*/
+      };
 
     const salesTaxRate = 8.25 / 100;
 
@@ -153,7 +147,7 @@ function Bookingcar({ match }) {
         <DefaultLayout>
             {loading === true && (<Spinner/>)}
 
-            <div className='row m-4' >
+            <div className='row m-1' >
                 <div className='col-md-12 d-flex justify-content-start'>
                     <a href='/'><img src={arrow} width='15'/></a>
                 </div>
@@ -161,8 +155,16 @@ function Bookingcar({ match }) {
 
             <div className='container'>
             <div className='row'>
-                <div className='col-md-6'>
-                    <img src={car.image} className="carimg2 bxs img-fluid me-2"/>
+                <div className='col-md-6 p-2 m-auto d-block'>
+                    <Carousel>
+                        {car.images?.map((image) => {
+                            return(
+                                <div>
+                            <img src={image.url} className="carimg2 d-block"/> 
+                        </div>
+                            )
+                        })}
+                    </Carousel>
                 </div>
                 <div className='col-md-6'>
                     <div>
@@ -174,11 +176,11 @@ function Bookingcar({ match }) {
                             <div className="d-inline-flex">
                             <div className='d-flex flex-column align-items-center pe-5'>
                                 <img src={seat} width="30"/>
-                                <p><b>{car.capacity}</b></p>
+                                <p>{car.capacity}</p>
                             </div>
                             <div className='d-flex flex-column align-items-center'>
                                 {car.fuelType === 'Electric' ? <img src={elec} width="30"/> : <img src={gas} width="30"/>}
-                                <p><b>{car.fuelType}</b></p>
+                                <p>{car.fuelType}</p>
                             </div>
                             </div>
                         </div>
@@ -212,7 +214,7 @@ function Bookingcar({ match }) {
                             else{
                                 setAirport(false);
                             }
-                        }}>Airport</Checkbox>
+                        }}>Austin Bergstrom Airport</Checkbox>
                         {!airport ? <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>{({ getInputProps, suggestions, getSuggestionItemProps, loading })=>(
                             <div>
                                 <input className='LocateInput' {...getInputProps({placeholder: "Enter Address..."})} style={{width: "350px"}}/>
@@ -272,11 +274,11 @@ function Bookingcar({ match }) {
                         <Checkbox onChange={(e)=>{
                             if(e.target.checked){
                                 setClean(true);
-                                setsubTotal(subTotal + 20);
+                                setsubTotal(subTotal + 15);
                             }
                             else{
                                 setClean(false);
-                                setsubTotal(subTotal - 20);
+                                setsubTotal(subTotal - 15);
                             }
                         }}>Prepaid Post-Trip Cleaning</Checkbox>
                         </div>
@@ -285,20 +287,19 @@ function Bookingcar({ match }) {
                     {from && to && (<div>
                         <p className='text-end'><b>Pick Up Address:</b> {address}</p>
                         <p className='text-end'><b>Trip Mileage:</b> {mileage}</p>
-                        <p className='text-end'><b>Daily Rate</b> - $ {car.rentPerDay.toFixed(2)}</p>
+                        <p className='text-end'><b>Daily Rate</b> - $ {car.rentPerDay.toFixed(2)} x {totalDays} Days</p>
+                        <p className='text-end'><b>Car Deposit</b> (Refunded After Trip - Subject to Incidental Charges) - $ {car.deposit.toFixed(2)}</p>
                         {delivery ? <p className='text-end'><b>Delivery</b> - $ {'40.00'}</p> : ""}
                         {preGas ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'40.00'}</p> : ""}
-                        {preElec ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'25.00'}</p> : ""}
-                        {toll ? <p className='text-end'><b>Unlimited Toll Access</b> - $ {'20.00'}</p> : ""}
+                        {preElec ? <p className='text-end'><b>Prepaid Charging</b> - $ {'25.00'}</p> : ""}
+                        {toll ? <p className='text-end'><b>Unlimited Toll Access</b> - $ {'15.00'}</p> : ""}
                         {clean ? <p className='text-end'><b>Post-Trip Cleaning</b> - $ {'20.00'}</p> : ""}
                         <p className='text-end'><b>Subtotal</b> - $ {subTotal.toFixed(2)}</p>
                         <p className='text-end'><b>Taxes</b> - $ {(Math.round(taxes * 100) / 100).toFixed(2)}</p>
                         <Divider/>
                         <p className='text-end'><b>Total</b> - $ {total.toFixed(2)}</p>
                         <div className='d-flex justify-content-end'>
-                            <StripeCheckout token={onToken} billingAddress amount={(Math.round(total.toFixed(2) * 100))} stripeKey="pk_test_51M9XuxGYrPg1epLHWriPuU5Cgd52f12UgzXLfJ7VigsN2Wkn1d9p4wq9U2QZJRueq6sKqRUITTxsPTsDHvcGfHRM00fwmZ8ibo">
-                                <button className='btm1'>Book Now</button>
-                            </StripeCheckout>
+                            <button className='btm1' onClick={pay}>Book Now</button>
                         </div> 
                     </div>)}
                     </div>

@@ -107,7 +107,7 @@ function DefaultLayout(props) {
           <img src={MSG} className="" width="25" />
         </a>
       </div>
-      <div className="footer">
+      <div className="footer mt-auto">
         <Divider />
         <div className="d-flex justify-content-center">
           <p>
@@ -117,7 +117,8 @@ function DefaultLayout(props) {
             </a>
           </p>
         </div>
-        <div className="pb-2">
+        <div className="pb-2 d-flex justify-content-center">
+          <p>Find us on &nbsp;</p>
           <a href="https://g.page/r/Ce_1qQZIHjdXEAI/review" target="_blank">
             <img src={G} width="35" />
           </a>

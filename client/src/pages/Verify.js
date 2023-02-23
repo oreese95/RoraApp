@@ -22,7 +22,7 @@ function Verify() {
   return (
     <div className="bxs p-3 m-5">
       <img id="logimg" src={ML} width="250" />
-      <h2>Verified</h2>
+      <h2>You Are Verified</h2>
       <a href="/login"><button className='logbutton'>Login</button></a>
     </div>
 
