@@ -14,7 +14,9 @@ import seat from '../assests/car-seat.png';
 import elec from '../assests/car.png';
 import emailjs from '@emailjs/browser';
 import globalVar from '../globalVar';
-import { stripeCheckout } from '../redux/actions/stripeActions';
+import { stripeCheckout } from '../redux/actions/stripeActions';     
+import DateTimeRangePicker from '@wojtekmaj/react-datetimerange-picker';
+
 
 
 const {RangePicker} = DatePicker
@@ -23,6 +25,7 @@ function Bookingcar({ match }) {
     const { carid } = useParams();
     const {cars} = useSelector(state=>state.carsReducer);
     const {loading} = useSelector(state=>state.alertsReducer);
+    const today = new Date();
     const dispatch = useDispatch();
     const [car, setcar]= useState([]);
     const [from, setfrom] = useState();
@@ -41,7 +44,7 @@ function Bookingcar({ match }) {
     const [taxes, setTax] = useState(0);
     const [airport, setAirport] = useState(false);
     const [clean, setClean] = useState(false);
-    const today = new Date();
+    const [value, setValue] = useState([new Date(), new Date()]);
 
     useEffect(() => {
         
@@ -132,13 +135,8 @@ function Bookingcar({ match }) {
             images: car.images[0].url,
             description: moment(from).format('dddd, MMM Do yyyy, h:mm a') + ' - ' + moment(to).format('dddd, MMM Do yyyy, h:mm a')
         }
-        dispatch(stripeCheckout(reqobj));    
-           
-          //console.log(reqobj)
-          /* if(dispatch(bookCar(reqobj))){
-            
-            }) 
-        }*/
+        //console.log(reqobj)
+        dispatch(stripeCheckout(reqobj));
       };
 
     const salesTaxRate = 8.25 / 100;
@@ -155,7 +153,7 @@ function Bookingcar({ match }) {
 
             <div className='container'>
             <div className='row'>
-                <div className='col-md-6 p-2 m-auto d-block'>
+                <div className='bookImage col-md-6 p-2 block'>
                     <Carousel>
                         {car.images?.map((image) => {
                             return(
@@ -187,10 +185,12 @@ function Bookingcar({ match }) {
                     </div>
                     <div>
                         <p>Trip Date</p>
-                        <div className='featBorder'>
+                        <div className='featBorder p-3'>
                         <RangePicker popupStyle={{
-                            width: "100%"
-                        }} allowClear use12Hours showTime format="MM DD yyyy hh:mm" placement={'topLeft'} onChange={selectTimeSlots} onCalendarChange={validDates}></RangePicker>
+                            width: "auto"
+                        }} allowClear use12Hours showTime format="MM DD yyyy hh:mm" placement={'topLeft'} onChange={selectTimeSlots} onCalendarChange={validDates}>
+
+                        </RangePicker>
                         </div>
                     </div>
                     <div>
@@ -287,8 +287,8 @@ function Bookingcar({ match }) {
                     {from && to && (<div>
                         <p className='text-end'><b>Pick Up Address:</b> {address}</p>
                         <p className='text-end'><b>Trip Mileage:</b> {mileage}</p>
-                        <p className='text-end'><b>Daily Rate</b> - $ {car.rentPerDay.toFixed(2)} x {totalDays} Days</p>
-                        <p className='text-end'><b>Car Deposit</b> (Refunded After Trip - Subject to Incidental Charges) - $ {car.deposit.toFixed(2)}</p>
+                        <p className='text-end'><b>Daily Rate</b> - $ {Math.ceil(car.rentPerDay * 100) / 100} x {totalDays} Days</p>
+                        <p className='text-end'><b>Car Deposit</b> (Refunded After Trip - Subject to Incidental Charges) - $ {Math.ceil(car.deposit * 100) / 100}</p>
                         {delivery ? <p className='text-end'><b>Delivery</b> - $ {'40.00'}</p> : ""}
                         {preGas ? <p className='text-end'><b>Prepaid Fuel</b> - $ {'40.00'}</p> : ""}
                         {preElec ? <p className='text-end'><b>Prepaid Charging</b> - $ {'25.00'}</p> : ""}
