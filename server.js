@@ -88,7 +88,8 @@ app.post("/webhook", express.raw({type: 'application/json'}), async (req, res) =
       event = stripe.webhooks.constructEvent(
         req.rawBody || req.body,
         sig,
-        "whsec_1eb4e2dcce015aa727cf72a5152c0a2014d028e3f6557b0f37623192c85d4447"
+        //"whsec_1eb4e2dcce015aa727cf72a5152c0a2014d028e3f6557b0f37623192c85d4447"
+        "we_1Mf2IsGYrPg1epLH4Z2cUvvJ"
       );
     } catch (error) {
       console.log(error.message);
