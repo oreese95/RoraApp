@@ -28,14 +28,12 @@ app.use("/api/bookings/", require("./routes/bookingsRoute"));
 // }
 
 let reqobj;
-let url = "http://localhost:4000";
-// let url = "https://api.rora-atx.com";
+//let url = "http://localhost:4000";
+ let url = "https://api.rora-atx.com";
 
 
 app.post("/stripe-checkout", async function createCheckoutSession(req, res) {
     console.log(" here from create session");
-    let url = "http://localhost:3000";
-// let url = "https://api.rora-atx.com";
     //console.log(req.body);
     reqobj = new Object(req.body.obj);
     //console.log(req.body);

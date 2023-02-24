@@ -1,7 +1,7 @@
 import axios from "axios";
 
-let url = "http://localhost:4000";
-//let url = "https://api.rora-atx.com";
+//let url = "http://localhost:4000";
+let url = "https://api.rora-atx.com";
 
 export const stripeCheckout = (reqobj) => async (dispatch) => {
     dispatch({ type: "LOADING", payload: true });
