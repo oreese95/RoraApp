@@ -64,8 +64,8 @@ app.post("/stripe-checkout", async function createCheckoutSession(req, res) {
             quantity: 1,
           },
         ],
-        success_url: `/success/{CHECKOUT_SESSION_ID}`,
-        cancel_url: `/booking/${req.body.car_id}`,
+        success_url: `${url}/success/{CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/booking/${req.body.car_id}`,
       });
       //console.log(session);
       res.status(200).json({ url: session.url });
