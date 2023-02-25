@@ -28,8 +28,8 @@ app.use("/api/bookings/", require("./routes/bookingsRoute"));
 // }
 
 let reqobj;
-let url = "http://localhost:4000";
- //let url = "https://api.rora-atx.com";
+//let url = "http://localhost:4000";
+let url = "https://api.rora-atx.com";
 
 
 app.post("/stripe-checkout", async function createCheckoutSession(req, res) {
