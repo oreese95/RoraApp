@@ -28,7 +28,7 @@ app.use("/api/bookings/", require("./routes/bookingsRoute"));
 // }
 
 let reqobj;
-let url = "https://api.rora-atx.com";
+let url = "https://dev.rora-atx.com";
 // let url = "http://localhost:4000";
 
 app.post("/stripe-checkout", async function createCheckoutSession(req, res) {
