@@ -28,8 +28,8 @@ app.use("/api/bookings/", require("./routes/bookingsRoute"));
 // }
 
 let reqobj;
-let url = "https://dev.rora-atx.com";
-// let url = "http://localhost:4000";
+// let url = "https://dev.rora-atx.com";
+let url = "http://localhost:3000";
 
 app.post("/stripe-checkout", async function createCheckoutSession(req, res) {
   console.log(" here from create session");
@@ -86,7 +86,6 @@ app.post(
   async (req, res) => {
     console.log("here from webHook");
     const sig = req.headers["stripe-signature"];
-    console.log("sig", sig);
     let event;
     try {
       event = stripe.webhooks.constructEvent(
