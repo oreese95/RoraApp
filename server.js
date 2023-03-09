@@ -28,8 +28,8 @@ app.use("/api/bookings/", require("./routes/bookingsRoute"));
 // }
 
 let reqobj;
-let url = "http://localhost:4000";
-// let url = "https://api.rora-atx.com";
+let url = "https://api.rora-atx.com";
+// let url = "http://localhost:4000";
 
 app.post("/stripe-checkout", async function createCheckoutSession(req, res) {
   console.log(" here from create session");
@@ -94,7 +94,6 @@ app.post(
         sig,
         //"whsec_1eb4e2dcce015aa727cf72a5152c0a2014d028e3f6557b0f37623192c85d4447"
         "whsec_bN4DqWzUiPt6bL3f2jwvTtRXScKJBLji"
-        // "we_1Mf2IsGYrPg1epLH4Z2cUvvJ"
       );
     } catch (error) {
       console.log(error);
