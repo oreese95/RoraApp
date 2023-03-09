@@ -28,62 +28,65 @@ app.use("/api/bookings/", require("./routes/bookingsRoute"));
 // }
 
 let reqobj;
-//let url = "http://localhost:4000";
-let url = "https://api.rora-atx.com";
-
+let url = "http://localhost:4000";
+// let url = "https://api.rora-atx.com";
 
 app.post("/stripe-checkout", async function createCheckoutSession(req, res) {
-    console.log(" here from create session");
-    //console.log(req.body);
-    reqobj = new Object(req.body.obj);
-    //console.log(req.body);
-    console.log(reqobj);
-    let session;
-    try {
-        const customer = await stripe.customers.create({
-            email: req.body.customer_email,
-            name: req.body.user_name,
-            source: req.body.id
-        })
-      session = await stripe.checkout.sessions.create({
-        mode: "payment",
-        //customer: customer.id,
-        customer_email: customer.email,
-        line_items: [
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: req.body.name,
-                description: req.body.description,
-                images: [req.body.images],
-              },
-              unit_amount: (req.body.unit_amount * 100)
+  console.log(" here from create session");
+  //console.log(req.body);
+  reqobj = new Object(req.body.obj);
+  //console.log(req.body);
+  console.log(reqobj);
+  let session;
+  try {
+    const customer = await stripe.customers.create({
+      email: req.body.customer_email,
+      name: req.body.user_name,
+      source: req.body.id,
+    });
+    session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      //customer: customer.id,
+      customer_email: customer.email,
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: req.body.name,
+              description: req.body.description,
+              images: [req.body.images],
             },
-  
-            quantity: 1,
+            unit_amount: req.body.unit_amount * 100,
           },
-        ],
-        success_url: `${url}/success/{CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/booking/${req.body.car_id}`,
-      });
-      //console.log(session);
-      res.status(200).json({ url: session.url });
-      console.log(session.url);
-    } catch (error) {
-      console.log(error);
-      res
-        .status(400)
-        .json({ error: "an error occured,unable to create session" });
-    }
-  }); 
-  const booking = require("./models/bookingModel")
-  const Car = require("./models/carModel")
-  //webhook
-app.post("/webhook", express.raw({type: 'application/json'}), async (req, res) => {
-    const sig = req.headers['stripe-signature'];
-    let event;
+
+          quantity: 1,
+        },
+      ],
+      success_url: `${url}/success/{CHECKOUT_SESSION_ID}`,
+      cancel_url: `${url}/booking/${req.body.car_id}`,
+    });
+    //console.log(session);
+    res.status(200).json({ url: session.url });
+    console.log(session.url);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(400)
+      .json({ error: "an error occured,unable to create session" });
+  }
+});
+const booking = require("./models/bookingModel");
+const Car = require("./models/carModel");
+//webhook
+// https://rora-atx.com/webhooks
+app.post(
+  "/webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
     console.log("here from webHook");
+    const sig = req.headers["stripe-signature"];
+    let event;
     try {
       event = stripe.webhooks.constructEvent(
         req.rawBody || req.body,
@@ -92,46 +95,42 @@ app.post("/webhook", express.raw({type: 'application/json'}), async (req, res) =
         "we_1Mf2IsGYrPg1epLH4Z2cUvvJ"
       );
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
       return res.status(400).send(`Webhooks error  ${error.message} `);
     }
-    
+
     const eventType = event.type;
     const session = event.data.object;
     //console.log(session);
     switch (eventType) {
-      case 'checkout.session.completed':
-        if(session.status === 'complete'){
-            reqobj.transactionID = session.id
-            const newbooking = new booking(reqobj)
-            await newbooking.save()
-            const car = await Car.findOne({ _id: reqobj.car })
-            car.bookedTimeSlots.push(reqobj.bookedTimeSlots)
-            await car.save()
-            res.send('Your booking is Successful')
+      case "checkout.session.completed":
+        if (session.status === "complete") {
+          reqobj.transactionID = session.id;
+          const newbooking = new booking(reqobj);
+          await newbooking.save();
+          const car = await Car.findOne({ _id: reqobj.car });
+          car.bookedTimeSlots.push(reqobj.bookedTimeSlots);
+          await car.save();
+          res.send("Your booking is Successful");
+        } else {
+          return res.status(400).json(error);
         }
-        else {
-            return res.status(400).json(error);
-        }
-        
-      
-/*            stripe.checkout.sessions.listLineItems(
+
+        /*            stripe.checkout.sessions.listLineItems(
             session.id,
             { limit: 5 },
             function (err, lineItems) {
             // asynchronously called 
             console.log(lineItems); } );  */
-          //}
+        //}
         break;
-  
+
       default:
         console.log(`Unhandled event type ${event.type}`);
     }
     res.status(200);
-  });
-
-
-
+  }
+);
 
 app.get("/", (req, res) => res.send("Hello World"));
 app.listen(port, () => console.log(`Node JS Server Started in Port ${port}`));
