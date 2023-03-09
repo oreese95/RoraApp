@@ -86,13 +86,15 @@ app.post(
   async (req, res) => {
     console.log("here from webHook");
     const sig = req.headers["stripe-signature"];
+    console.log("sig", sig);
     let event;
     try {
       event = stripe.webhooks.constructEvent(
         req.rawBody || req.body,
         sig,
         //"whsec_1eb4e2dcce015aa727cf72a5152c0a2014d028e3f6557b0f37623192c85d4447"
-        "we_1Mf2IsGYrPg1epLH4Z2cUvvJ"
+        "whsec_bN4DqWzUiPt6bL3f2jwvTtRXScKJBLji"
+        // "we_1Mf2IsGYrPg1epLH4Z2cUvvJ"
       );
     } catch (error) {
       console.log(error);
